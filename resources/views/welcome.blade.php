@@ -26,6 +26,7 @@
         <div class="top-right links">
             @auth
             <a href="{{ url('/home') }}">Home</a>
+            <a href="{{ url('/') }}">Tasks</a>
             @else
             <a href="{{ route('login') }}">Login</a>
 
@@ -38,7 +39,7 @@
 
         <div id='app'>
             <div class="content" id="vue">
-                <task />
+                <task :auth="{{ auth()->user() ?? '{}' }}" />
             </div>
         </div>
     </div>

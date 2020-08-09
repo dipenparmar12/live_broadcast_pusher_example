@@ -29,8 +29,9 @@ window.Vue = require("vue");
 
 Vue.component("ec", require("./components/ExampleComponent.vue").default);
 Vue.component("test", require("./components/Test.vue").default);
-Vue.component("task", require("./components/TaskList.vue").default);
 Vue.component("Temp", require("./components/Temp.vue").default);
+
+Vue.component("task", require("./components/TaskList.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
