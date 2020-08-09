@@ -37,6 +37,7 @@ class NewTask implements ShouldBroadcastNow
         return new Channel('task');
     }
 
+    ////// Echo.channel("task").listen(".newTask", (e) => {});
     public function broadcastAs()
     {
         return "newTask";

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-10">
         <div class="card">
           <div class="card-header">Tasks ({{ auth ? auth.name: "null" }})</div>
           <div class="card-body">
@@ -21,6 +21,7 @@
             <span style="color:#ccc">{{ task }}</span>
           </div>
         </div>
+        <test />
       </div>
     </div>
   </div>
@@ -37,6 +38,7 @@ export default {
   mounted() {
     console.log("Tasklist mounted.");
     this.listTask(); //// TO Get and list out data
+    this.connect_live_broadcast(); //// Listen ECHO and Pusher for new Event
   },
   methods: {
     //   list, items
@@ -52,7 +54,8 @@ export default {
       console.log(this.task, "Added");
       axios.post("task", { name: this.task }).then((_res) => {
         // console.log(_res.data);
-        this.tasks.push(_res.data);
+        // this.tasks.push(_res.data);
+        console.log("Added.");
       });
       this.task = null;
     },
@@ -63,6 +66,13 @@ export default {
       axios.delete("task/" + _id).then((_res) => {
         // console.log(_res.data);
         this.tasks = this.tasks.filter((el) => el.id != _id);
+      });
+    },
+
+    connect_live_broadcast() {
+      console.log("Listening on Task:::::");
+      Echo.channel("task").listen(".newTask", (e) => {
+        this.tasks.push(e.task);
       });
     },
   },
