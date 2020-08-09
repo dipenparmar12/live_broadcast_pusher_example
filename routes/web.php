@@ -1,8 +1,8 @@
 <?php
 
-use App\Events\NewTask;
+use App\Events\DeleteTaskEvent;
+use App\Events\NewTaskEvent;
 use App\Task;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +33,17 @@ Route::get("task", function () {
 
 Route::post("task", function () {
     $task =  Task::create(['name' => request('name')]);
-    event(new NewTask($task));
+    event(new NewTaskEvent($task));
     return $task;
 });
 
 Route::delete("task/{id}", function ($id) {
-    return Task::whereId($id)->delete();
+    $task = Task::whereId($id)->first();
+    if ($task) {
+        // event(new DeleteTaskEvent($task));
+        $task->delete();
+    }
+    return $task;
 });
 
 Auth::routes();

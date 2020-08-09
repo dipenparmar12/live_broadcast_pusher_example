@@ -11,8 +11,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class NewTask implements ShouldBroadcastNow
+class NewTaskEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,12 +35,13 @@ class NewTask implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
+        Log::debug(["NewTask Event::broadcastOn::", $this->task->name]);
         return new Channel('task');
     }
 
-    ////// Echo.channel("task").listen(".newTask", (e) => {});
+    ////// Echo.channel("task").listen(".task.created", (e) => {console.log(e.task)}
     public function broadcastAs()
     {
-        return "newTask";
+        return "task.created";
     }
 }
