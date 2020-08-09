@@ -70,7 +70,7 @@ export default {
     },
 
     connect_live_broadcast() {
-      console.log("Listening on Task:::::");
+      console.log("Listening on channel 'Task' ");
       Echo.channel("task").listen(".newTask", (e) => {
         this.tasks.push(e.task);
       });
